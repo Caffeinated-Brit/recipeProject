@@ -1,19 +1,19 @@
 import PropTypes from "prop-types";
-export function PostFilter({ field, value, onChange }) {
+export function RecipeFilter({ field, value, onChange }) {
   return (
     <div>
-      <label htmlFor={"filter-${field}"}>{field}: </label>
+      <label htmlFor={`filter-${field}`}>{field}: </label>
       <input
         type="text"
-        name={"filter-${field}"}
-        id={"filter-${field}"}
+        name={`filter-${field}`}
+        id={`filter-${field}`}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );
 }
-PostFilter.propTypes = {
+RecipeFilter.propTypes = {
   field: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

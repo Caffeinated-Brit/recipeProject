@@ -1,25 +1,25 @@
-import { CreatePost } from "../components/CreatePost.jsx";
-import { PostList } from "../components/PostList.jsx";
-import { PostFilter } from "../components/PostFilter.jsx";
-import { PostSorting } from "../components/PostSorting.jsx";
+import { CreateRecipe } from "../components/CreateRecipe.jsx";
+import { RecipeList } from "../components/RecipeList.jsx";
+import { RecipeFilter } from "../components/RecipeFilter.jsx";
+import { RecipeSorting } from "../components/RecipeSorting.jsx";
 import { Header } from "../components/Header.jsx";
 import { useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { getPosts } from "../api/posts.js";
+import { getRecipes } from "../api/recipes.js";
 
-export function Blog() {
+export function HomePage() {
   const [author, setAuthor] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("descending");
 
-  const postsQuery = useQuery({
-    queryKey: ["posts", { author, sortBy, sortOrder }],
-    queryFn: () => getPosts({ author, sortBy, sortOrder }),
+  const RecipesQuery = useQuery({
+    queryKey: ["recipes", { author, sortBy, sortOrder }],
+    queryFn: () => getRecipes({ author, sortBy, sortOrder }),
   });
 
-  const posts = postsQuery.data ?? [];
-  console.log(posts);
+  const Recipes = RecipesQuery.data ?? [];
+  console.log(Recipes);
 
   return (
     <div style={{ padding: 8 }}>
@@ -27,17 +27,17 @@ export function Blog() {
       <Header />
       <br />
       <hr />
-      <CreatePost />
+      <CreateRecipe />
       <br />
       <hr />
       Filter by:
-      <PostFilter
+      <RecipeFilter
         field="author"
         value={author}
         onChange={(value) => setAuthor(value)}
       />
       <br />
-      <PostSorting
+      <RecipeSorting
         fields={["createdAt", "updatedAt"]}
         value={sortBy}
         onChange={(value) => setSortBy(value)}
@@ -45,7 +45,7 @@ export function Blog() {
         onOrderChange={(orderValue) => setSortOrder(orderValue)}
       />
       <hr />
-      <PostList posts={posts} />
+      <RecipeList recipes={Recipes} />
     </div>
   );
 }
