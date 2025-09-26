@@ -1,6 +1,6 @@
 import { initDatabase } from "./db/init.js";
 
-import { Post } from "./db/models/post.js";
+import { Post } from "./db/models/DELETEpost.js";
 
 await initDatabase();
 

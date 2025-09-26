@@ -9,8 +9,8 @@ import {
   getPostById,
   updatePost,
   deletePost,
-} from "../services/posts.js";
-import { Post } from "../db/models/post.js";
+} from "../services/DELETEposts.js";
+import { Post } from "../db/models/DELETEpost.js";
 
 import { createUser } from "../services/users.js";
 
