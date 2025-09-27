@@ -5,6 +5,7 @@ import { Login } from "./pages/Login.jsx";
 import { AuthContextProvider } from "./contexts/AuthContext.jsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { MyRecipes } from "./pages/MyRecipes.jsx";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/myrecipes",
+    element: <MyRecipes />,
   },
 ]);
 

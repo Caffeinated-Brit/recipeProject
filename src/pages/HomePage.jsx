@@ -18,12 +18,13 @@ export function HomePage() {
     queryFn: () => getRecipes({ author, sortBy, sortOrder }),
   });
 
+  console.log(author);
   const Recipes = RecipesQuery.data ?? [];
   console.log(Recipes);
 
   return (
     <div style={{ padding: 8 }}>
-      <h1>Welcome to My Blog!</h1>
+      <h1>Welcome to some Recipes!</h1>
       <Header />
       <br />
       <hr />

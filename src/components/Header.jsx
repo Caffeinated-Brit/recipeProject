@@ -9,9 +9,14 @@ export function Header() {
     const { sub } = jwtDecode(token);
     return (
       <div>
-        Logged in as <User id={sub} />
-        <br />
-        <button onClick={() => setToken(null)}>Logout</button>
+        <div>
+          Logged in as <User id={sub} />
+          <br />
+          <button onClick={() => setToken(null)}>Logout</button>
+        </div>
+        <div>
+          <Link to="/myrecipes">My Recipes</Link>
+        </div>
       </div>
     );
   }
