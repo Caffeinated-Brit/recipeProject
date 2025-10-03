@@ -37,7 +37,7 @@ export const updateRecipe = async (token, recipeId, updatedRecipe) => {
   const res = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/recipes/${recipeId}`,
     {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

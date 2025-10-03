@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext.jsx";
 import { getRecipes } from "../api/recipes.js";
 import { getUserInfo } from "../api/users.js";
 import { Header } from "../components/Header.jsx";
-import { RecipeList } from "../components/RecipeList.jsx";
+import { EditableRecipeList } from "../components/EditableRecipeList.jsx";
 
 export function MyRecipes() {
   const [token] = useAuth();
@@ -47,7 +47,7 @@ export function MyRecipes() {
     <div>
       <Header />
       <hr></hr>
-      <RecipeList recipes={recipes} />
+      <EditableRecipeList recipes={recipes} token={token} />
       {recipesQuery.isLoading && <div>Loading...</div>}
       {recipesQuery.error && <div>Error loading recipes</div>}
     </div>
