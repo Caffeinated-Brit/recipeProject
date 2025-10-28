@@ -6,6 +6,9 @@ import {
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  removeLike,
+  getTopRecipes,
+  addLike,
 } from "../services/recipes.js";
 
 import { requireAuth } from "../middleware/jwt.js";
@@ -71,6 +74,39 @@ export function recipesRoutes(app) {
       return res.status(204).end();
     } catch (err) {
       console.error("error deleting recipe", err);
+      return res.status(500).end();
+    }
+  });
+
+  app.post("/api/v1/recipes/:id/like", requireAuth, async (req, res) => {
+    try {
+      const likesCount = await addLike(req.params.id, req.auth.sub);
+      if (likesCount === null) return res.status(404).end();
+      return res.json({ likesCount });
+    } catch (err) {
+      console.error("error adding like", err);
+      return res.status(500).end();
+    }
+  });
+
+  app.delete("/api/v1/recipes/:id/like", requireAuth, async (req, res) => {
+    try {
+      const likesCount = await removeLike(req.params.id, req.auth.sub);
+      if (likesCount === null) return res.status(404).end();
+      return res.json({ likesCount });
+    } catch (err) {
+      console.error("error removing like", err);
+      return res.status(500).end();
+    }
+  });
+
+  app.get("/api/v1/recipes/top", async (req, res) => {
+    const { limit } = req.query;
+    try {
+      const topRecipes = await getTopRecipes(limit);
+      return res.json(topRecipes);
+    } catch (err) {
+      console.error("error getting top recipes", err);
       return res.status(500).end();
     }
   });

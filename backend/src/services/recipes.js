@@ -46,3 +46,42 @@ export async function updateRecipe(
 export async function deleteRecipe(userId, recipeId) {
   return await Recipe.deleteOne({ _id: recipeId, user: userId });
 }
+
+export async function addLike(recipeId, userId) {
+  const updated = await Recipe.findByIdAndUpdate(
+    recipeId,
+    { $addToSet: { likedBy: userId } },
+    { new: true },
+  ).select("likedBy");
+  if (!updated) return null;
+  return updated.likedBy.length;
+}
+
+export async function removeLike(recipeId, userId) {
+  const updated = await Recipe.findByIdAndUpdate(
+    recipeId,
+    { $pull: { likedBy: userId } },
+    { new: true },
+  ).select("likedBy");
+  if (!updated) return null;
+  return updated.likedBy.length;
+}
+
+export async function getTopRecipes(limit = 10) {
+  const l = Math.min(parseInt(limit, 10) || 10, 100);
+  const top = await Recipe.aggregate([
+    {
+      $project: {
+        title: 1,
+        ingredients: 1,
+        imageUrl: 1,
+        user: 1,
+        createdAt: 1,
+        likesCount: { $size: { $ifNull: ["$likedBy", []] } },
+      },
+    },
+    { $sort: { likesCount: -1, createdAt: -1 } },
+    { $limit: l },
+  ]);
+  return top;
+}

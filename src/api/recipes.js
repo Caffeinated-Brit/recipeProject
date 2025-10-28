@@ -48,3 +48,33 @@ export const updateRecipe = async (token, recipeId, updatedRecipe) => {
   if (!res.ok) throw new Error("Failed to update recipe");
   return await res.json();
 };
+
+export const likeRecipe = async (token, recipeId) => {
+  const res = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/recipes/${recipeId}/like`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  if (!res.ok) throw new Error("Failed to like recipe");
+  return await res.json();
+};
+
+export const unlikeRecipe = async (token, recipeId) => {
+  const res = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/recipes/${recipeId}/like`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  if (!res.ok) throw new Error("Failed to unlike recipe");
+  return await res.json();
+};

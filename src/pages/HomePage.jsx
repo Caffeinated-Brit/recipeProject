@@ -3,15 +3,17 @@ import { RecipeList } from "../components/RecipeList.jsx";
 import { RecipeFilter } from "../components/RecipeFilter.jsx";
 import { RecipeSorting } from "../components/RecipeSorting.jsx";
 import { Header } from "../components/Header.jsx";
-import { useState } from "react";
-
+import { useState, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getRecipes } from "../api/recipes.js";
+import { AuthContext } from "../contexts/AuthContext.jsx"; // Adjust path if needed
 
 export function HomePage() {
   const [author, setAuthor] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("descending");
+
+  const { userId, token } = useContext(AuthContext); // Retrieve from context
 
   const RecipesQuery = useQuery({
     queryKey: ["recipes", { author, sortBy, sortOrder }],
@@ -46,7 +48,7 @@ export function HomePage() {
         onOrderChange={(orderValue) => setSortOrder(orderValue)}
       />
       <hr />
-      <RecipeList recipes={Recipes} />
+      <RecipeList recipes={Recipes} userId={userId} token={token} />
     </div>
   );
 }

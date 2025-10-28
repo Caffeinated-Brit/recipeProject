@@ -6,6 +6,7 @@ const recipeSchema = new Schema(
     ingredients: [{ type: String, required: true }],
     imageUrl: { type: String, required: true },
     user: { type: Schema.Types.ObjectId, ref: "user", required: true },
+    likedBy: [{ type: Schema.Types.ObjectId, ref: "user" }],
   },
   { timestamps: true },
 );
