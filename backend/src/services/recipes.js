@@ -10,7 +10,22 @@ export async function listRecipes(
   query = {},
   { sortBy = "createdAt", sortOrder = "descending" } = {},
 ) {
-  return await Recipe.find(query).sort({ [sortBy]: sortOrder });
+  // This is needed to do sorting like normal with createdAt and updatedAt
+  const order = sortOrder === "ascending" ? 1 : -1;
+
+  if (sortBy === "likes") {
+    return await Recipe.aggregate([
+      { $match: query },
+      {
+        $addFields: {
+          likesCount: { $size: { $ifNull: ["$likedBy", []] } },
+        },
+      },
+      { $sort: { likesCount: order, createdAt: -1 } },
+    ]);
+  }
+
+  return await Recipe.find(query).sort({ [sortBy]: order });
 }
 
 export async function listAllRecipes(options) {
@@ -69,7 +84,7 @@ export async function removeLike(recipeId, userId) {
 
 export async function getTopRecipes(limit = 10) {
   const l = Math.min(parseInt(limit, 10) || 10, 100);
-  const top = await Recipe.aggregate([
+  return await Recipe.aggregate([
     {
       $project: {
         title: 1,
@@ -83,5 +98,4 @@ export async function getTopRecipes(limit = 10) {
     { $sort: { likesCount: -1, createdAt: -1 } },
     { $limit: l },
   ]);
-  return top;
 }
