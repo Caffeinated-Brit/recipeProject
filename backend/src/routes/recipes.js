@@ -50,6 +50,19 @@ export function recipesRoutes(app) {
   app.post("/api/v1/recipes", requireAuth, async (req, res) => {
     try {
       const recipe = await createRecipe(req.auth.sub, req.body);
+
+      const io = req.app.get("io");
+      if (io) {
+        try {
+          io.emit("newRecipe", {
+            title: recipe.title,
+            id: recipe._id.toString(),
+          });
+        } catch (emitErr) {
+          console.error("error emitting newRecipe", emitErr);
+        }
+      }
+
       return res.json(recipe);
     } catch (err) {
       console.error("error creating recipe", err);

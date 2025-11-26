@@ -14,7 +14,7 @@ export async function listRecipes(
   const order = sortOrder === "ascending" ? 1 : -1;
 
   if (sortBy === "likes") {
-    return await Recipe.aggregate([
+    return Recipe.aggregate([
       { $match: query },
       {
         $addFields: {

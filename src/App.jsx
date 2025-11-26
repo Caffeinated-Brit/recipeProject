@@ -3,6 +3,7 @@ import { HomePage } from "./pages/HomePage.jsx";
 import { Signup } from "./pages/Signup.jsx";
 import { Login } from "./pages/Login.jsx";
 import { AuthContextProvider } from "./contexts/AuthContext.jsx";
+import { SocketProvider } from "./contexts/SocketProvider.jsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MyRecipes } from "./pages/MyRecipes.jsx";
@@ -32,7 +33,9 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <RouterProvider router={router} />
+        <SocketProvider>
+          <RouterProvider router={router} />
+        </SocketProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   );
