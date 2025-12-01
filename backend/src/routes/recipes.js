@@ -52,16 +52,11 @@ export function recipesRoutes(app) {
       const recipe = await createRecipe(req.auth.sub, req.body);
 
       const io = req.app.get("io");
-      if (io) {
-        try {
-          io.emit("newRecipe", {
-            title: recipe.title,
-            id: recipe._id.toString(),
-          });
-        } catch (emitErr) {
-          console.error("error emitting newRecipe", emitErr);
-        }
-      }
+
+      io.emit("newRecipe", {
+        title: recipe.title,
+        id: recipe._id.toString(),
+      });
 
       return res.json(recipe);
     } catch (err) {

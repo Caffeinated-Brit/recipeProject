@@ -7,6 +7,7 @@ import { SocketProvider } from "./contexts/SocketProvider.jsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MyRecipes } from "./pages/MyRecipes.jsx";
+import { RecipePage } from "./pages/RecipePage.jsx";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/myrecipes",
     element: <MyRecipes />,
+  },
+  {
+    path: "/recipes/:id",
+    element: <RecipePage />,
   },
 ]);
 
